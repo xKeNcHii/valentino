@@ -34,6 +34,19 @@
       .answerButton:hover {
         background-color: #ff3b2f;
       }
+      @media (max-width: 600px) {
+        #valentineQuestion {
+          font-size: 1.2em;
+        }
+        .answerButton {
+          padding: 8px 16px;
+          font-size: 0.7em;
+        }
+        img.responsive {
+          width: 80%;
+          height: auto;
+        }
+      }
     </style>
   </head>
   <body>
@@ -89,7 +102,7 @@
         currentStickerIndex = (currentStickerIndex + 1) % angryStickers.length;
         setTimeout(function() {
           gifImage.src = "shake.gif";
-        }, 500); // Change to shake.gif after 0.5 seconds
+        }, 800); // Change to shake.gif after 0.5 seconds
       });
 
       var yesButton = document.querySelector('.answerButton:first-of-type');
