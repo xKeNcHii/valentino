@@ -2,31 +2,106 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Be My Valentine</title>
     <link rel="stylesheet" href="css/valentine.css" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      #valentineQuestion {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+      }
+      .answerButton {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 0.8em;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff6f61;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .answerButton:hover {
+        background-color: #ff3b2f;
+      }
+    </style>
   </head>
   <body>
     <div id="valentineQuestion"><b>Will you be my valentine?</b></div>
-    <button class="answerButton" onclick="location.href='thankyou.html'">
+    <button class="answerButton">
       Yes
     </button>
-    <button class="answerButton" id="noButton">I no no wanna o(╥﹏╥)o</button>
+    <button class="answerButton" id="noButton">No</button>
     <br />
-    <img src="cat.gif" alt="cat asking question" class="responsive" />
-
+    <img src="nod.gif" alt="cat asking question" class="responsive" />
+    <br />
     <script>
-      document
-        .getElementById("noButton")
-        .addEventListener("click", function () {
-          var yesButton = document.querySelector(
-            'button[onclick*="thankyou.html"]'
-          );
-          var currentFontSize = parseInt(
-            window.getComputedStyle(yesButton).fontSize
-          );
-          yesButton.style.fontSize = currentFontSize + 10 + "px"; // Increase font size by 5px
-        });
+      var noButton = document.getElementById("noButton");
+      var noPhrases = [
+        "NO?",
+        "Are you sure?",
+        "Try again",
+        "I don't think so",
+        "Nuh uh",
+        "On your family's life?",
+        "You need a big fat YES"
+      ];
+      var currentPhraseIndex = 0;
+
+      var angryStickers = [
+        "sticker-2.webp",
+        "sticker-3.webp",
+        "sticker-4.webp",
+        "sticker-5.webp",
+        "sticker-6.webp"
+      ];
+      var currentStickerIndex = 0;
+
+      noButton.addEventListener("click", function () {
+        // Change button text
+        currentPhraseIndex = (currentPhraseIndex + 1) % noPhrases.length;
+        noButton.textContent = noPhrases[currentPhraseIndex];
+
+        var yesButton = document.querySelector('.answerButton:first-of-type');
+        var currentFontSize = parseInt(
+          window.getComputedStyle(yesButton).fontSize
+        );
+        yesButton.style.fontSize = currentFontSize + 15 + "px"; // Increase font size by 5px
+
+        // Check if the button is large enough to allow navigation
+        if (currentFontSize > 100) { // Adjust threshold to ensure no immediate redirect
+          yesButton.dataset.canRedirect = "true";
+        }
+
+        // Change GIF on 'No' button click
+        var gifImage = document.querySelector('img[alt="cat asking question"]');
+        gifImage.src = angryStickers[currentStickerIndex];
+        currentStickerIndex = (currentStickerIndex + 1) % angryStickers.length;
+        setTimeout(function() {
+          gifImage.src = "shake.gif";
+        }, 500); // Change to shake.gif after 0.5 seconds
+      });
+
+      var yesButton = document.querySelector('.answerButton:first-of-type');
+
+      yesButton.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent immediate navigation
+
+        // Redirect only if the button is large enough
+        if (yesButton.dataset.canRedirect === "true") {
+          location.href = "thankyou.html";
+        }
+      });
     </script>
   </body>
 </html>
